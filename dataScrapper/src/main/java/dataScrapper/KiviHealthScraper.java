@@ -6,7 +6,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -23,7 +22,7 @@ public class KiviHealthScraper {
             Workbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("DoctorsData");
 
-            // Create header row
+            // Header row creation
             Row headerRow = sheet.createRow(0);
             for (int i = 0; i < COLUMN_HEADERS.length; i++) {
                 Cell cell = headerRow.createCell(i);
@@ -32,18 +31,18 @@ public class KiviHealthScraper {
 
             int rowNum = 1;
             for (Element doctor : doctors) {
-                String profile = doctor.select(".profile-class").attr("src"); // Doctor Image Fetching
-                String name = doctor.select(".name-class").text(); // Adjust the class name
-                String education = doctor.select(".education-class").text(); // Adjust the class name
-                String fees = doctor.select(".fees-class").text(); // Adjust the class name
-                String specialization = doctor.select(".specialization-class").text(); // Adjust the class name
+                String profile = doctor.select(".image").attr("src"); // Doctor Image Fetching
+                String name = doctor.select(".name").text(); // Adjust the class name
+                //String education = doctor.select(".education-class").text(); // Adjust the class name
+                String fees = doctor.select(".fee-charges").text(); // Adjust the class name
+                //String specialization = doctor.select(".specialization-class").text(); // Adjust the class name
 
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(profile);
                 row.createCell(1).setCellValue(name);
-                row.createCell(2).setCellValue(education);
+                //row.createCell(2).setCellValue(education);
                 row.createCell(3).setCellValue(fees);
-                row.createCell(4).setCellValue(specialization);
+                //row.createCell(4).setCellValue(specialization);
             }
 
             // Resize all columns to fit the content size
@@ -59,10 +58,10 @@ public class KiviHealthScraper {
             // Closing the workbook
             workbook.close();
 
-            System.out.println("Data successfully scraped and written to doctors.xlsx");
+          System.out.println("Data successfully scraped and written to doctors.xlsx");
         } catch (IOException e) {
-            e.printStackTrace();
+          e.printStackTrace();
         }
     }
-}
+    }
 
